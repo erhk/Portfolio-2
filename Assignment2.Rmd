@@ -476,7 +476,87 @@ gridExtra::grid.arrange(Krisplot2, Joshplot2, Mikkelplot2, Riccplot2)
 
 5. Imagine you're a skeptic and think your teachers do not know anything about CogSci, given the content of their classes. How would you operationalize that belief?
 ```{r}
-#I would use a sceptical prior, below 0.5. There would be a need of a lot of evidence for going above .50
+#I would use a sceptical prior, below 0.5. There would be a need of a lot of evidence for going above .50. Use a mean of 0.50, and SD og 0.2
+
+
+#Change prior of teachers
+prior = dnorm(p_grid, mean = 0.50, sd = 0.2)
+
+#Kristian
+#Grid
+dens = 20
+p_grid <- seq(from = 0, to =1, length.out = dens)
+
+#compute likelihood at each value in grid
+likelihood <- dbinom(2, size = 2, prob = p_grid)
+
+#compute product of likelihood and prior
+unstd.posterior <- likelihood*prior
+#Starndarize the posterior so it sums 1
+posterior <- unstd.posterior/sum(unstd.posterior)
+
+#Plot
+Kris4=data.frame(grid=p_grid,posterior=posterior,prior=prior,likelihood=likelihood)
+Krisplot4 <- ggplot(Kris4,aes(grid,posterior))+  geom_point()+geom_line()+theme_classic()+  geom_line(aes(grid,prior/dens),color='red')+  ggtitle("Kristian") + xlab("probability of knowledge")+ ylab("posterior probability")
+Krisplot4
+
+#Josh
+#P grid for josh
+
+p_gridJ <- seq(from = 0, to =1, length.out = 20)
+
+#compute likelihood at each value in grid
+likelihood <- dbinom(160, size = 198, prob = p_gridJ)
+
+#compute product of likelihood and prior
+unstd.posterior <- likelihood*prior
+#Starndarize the posterior so it sums 1
+posterior <- unstd.posterior/sum(unstd.posterior)
+
+#Plot
+Josh4=data.frame(grid=p_gridJ,posterior=posterior,prior=prior,likelihood=likelihood)
+Joshplot4<- ggplot(Josh4,aes(grid,posterior))+  geom_point()+geom_line()+theme_classic()+  geom_line(aes(grid,prior/dens),color='red')+ ggtitle("Joshua") + xlab("probability of knowledge")+ ylab("posterior probability")
+Joshplot4
+
+#Mikkel
+#grid
+
+p_gridM <- seq(from = 0, to =1, length.out = 20)
+#compute likelihood at each value in grid
+likelihood <- dbinom(66, size = 132, prob = p_gridM)
+
+#compute product of likelihood and prior
+unstd.posterior <- likelihood*prior
+#Starndarize the posterior so it sums 1
+posterior <- unstd.posterior/sum(unstd.posterior)
+
+#Plot
+Mikkel4=data.frame(grid=p_gridM,posterior=posterior,prior=prior,likelihood=likelihood)
+Mikkelplot4 <- ggplot(Mikkel4,aes(grid,posterior))+  geom_point()+geom_line()+theme_classic()+  geom_line(aes(grid,prior/dens),color='red')+  ggtitle("Mikkel") + xlab("probability of knowledge")+ ylab("posterior probability") 
+Mikkelplot4
+
+#Riccardo
+#grid
+p_gridR <- seq(from = 0, to =1, length.out = 20)
+
+#likelihood
+likelihood <- dbinom(3, size = 6, prob = p_grid)
+
+#compute product of likelihood and prior
+unstd.posterior <- likelihood*prior
+#Starndarize the posterior so it sums 1
+posterior <- unstd.posterior/sum(unstd.posterior)
+
+#Plot
+Ricc4=data.frame(grid=p_gridR,posterior=posterior,prior=prior,likelihood=likelihood)
+Riccplot4 <- ggplot(Ricc4,aes(grid,posterior))+  geom_point()+geom_line()+theme_classic()+  geom_line(aes(grid,prior/dens),color='red')+ ggtitle("Riccardo")+ xlab("probability of knowledge")+ ylab("posterior probability")
+Riccplot4
+
+sum(posterior[p_gridR < 0.5])
+
+
+
+gridExtra::grid.arrange(Krisplot4, Joshplot4, Riccplot4, Mikkelplot4)
 ```
 
 6. Optional question: Can you estimate the difference between Riccardo's estimated knowledge and that of each of the other teachers? Would you deem it credible (that is, would you believe that it is actually different)?
